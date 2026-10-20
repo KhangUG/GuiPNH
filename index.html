@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fff8fa">
+  <meta name="description" content="Một bó hoa và tấm thiệp nhỏ, gửi những lời chúc dịu dàng nhân ngày Phụ nữ Việt Nam 20/10.">
+  <title>Một bó hoa dành tặng mày · 20/10</title>
+  <link rel="stylesheet" href="./assets/fonts/fonts.css">
+  <link rel="stylesheet" href="./style.css">
+  <script src="./greeting-params.js" defer></script>
+  <script src="./script.js" defer></script>
+  <script src="./card.js" defer></script>
+  <script src="./album.js" defer></script>
+  <script>
+    document.addEventListener('click', (event) => {
+      const el = event.target.closest('button, a');
+      if (!el || el.classList.contains('envelope-button')) return;
+      el.classList.remove('is-tapped');
+      void el.offsetWidth;
+      el.classList.add('is-tapped');
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+      const link = document.getElementById('gardenLink');
+      if (!link) return;
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const go = window.FlowerGreetingParams
+          ? window.FlowerGreetingParams.withCurrentParams('garden.html')
+          : 'garden.html';
+        window.location.href = go;
+      });
+    });
+  </script>
+</head>
+<body>
+  <a class='garden-link' href='garden.html' id='gardenLink'>Ngắm vườn hoa <span aria-hidden="true">❀</span></a>
+  <main>
+    <canvas id="ambientPetalsCanvas" aria-hidden="true"></canvas>
+    <header class="greeting">
+      <p class="occasion">Ngày Phụ nữ Việt Nam <span>20/10</span></p>
+      <h1>Một bó hoa nhỏ,<br>gửi ngàn yêu thương.</h1>
+      <p class="greeting-caption">Mong hôm nay của mày thật dịu dàng.</p>
+      <p class="greeting-joke">Cảnh báo nhỏ: đọc tiếp có thể bị mỉm cười. Người viết không chịu trách nhiệm.</p>
+    </header>
+
+    <div class="gift-layout">
+      <section class="scene-column" aria-label="Hoa và những lời chúc 20/10">
+
+
+        <div class="gift-visuals">
+          <div class="bouquet-composition">
+            <div id="bouquetStageWrapper" role="button" tabindex="0"
+              aria-label="Bó hoa hồng. Nhấn Enter để nhận lời chúc; dùng phím mũi tên để chọn bông hoa."
+              aria-describedby="bouquetHint">
+              <canvas id="bouquetCanvas" aria-hidden="true"></canvas>
+            </div>
+            <button class="envelope-button" id="openCard" type="button" aria-haspopup="dialog" aria-controls="greetingCard" aria-expanded="false" hidden>
+              <span class="envelope" aria-hidden="true"><span class="envelope-letter">Gửi mày</span><span class="envelope-seal">♡</span></span>
+              <span class="envelope-caption">Có một tấm thiệp cho mày</span>
+              <span class="envelope-action">Mở thiệp</span>
+            </button>
+          </div>
+
+        </div>
+
+        <footer class="scene-footer">
+          <p id="bouquetHint" class="bouquet-hint">Chạm một bông hoa để nhận lời chúc</p>
+          <p id="roseWish" class="rose-wish" role="status" aria-live="polite" aria-atomic="true"></p>
+          <button class="text-button" id="replayBloom" type="button">Cho hoa nở lại <span aria-hidden="true">↻</span></button>
+        </footer>
+      </section>
+
+      <dialog id="greetingCard" class="card-dialog" aria-labelledby="cardTitle">
+        <div class="letter-paper">
+          <button class="close-button" id="closeCard" type="button" aria-label="Đóng thiệp">×</button>
+          <div id="cardReading">
+            <div class="letter-date" aria-label="Ngày 20 tháng 10"><span>20</span><span class="date-stem" aria-hidden="true"></span><span>10</span></div>
+            <p class="letter-aside">Đọc chậm thôi. Người viết đã cố không sến lắm rồi.</p>
+            <p class="letter-recipient">Gửi <span id="cardRecipient">Phạm Ngọc Huyền</span>,</p>
+            <h2 id="cardTitle">Chúc mày một ngày<br>thật nhiều yêu thương.</h2>
+            <div class="letter-flower" aria-hidden="true">❀</div>
+            <p id="cardMessage" class="letter-message"></p>
+            <div class="letter-signoff"><p>Với thật nhiều thương mến,</p><p id="cardSender" class="letter-signature">Giáp Văn Khang</p></div>
+            <div class="letter-fold" aria-hidden="true"></div>
+            <div class="letter-actions"><button id="viewAlbum" class="text-button" type="button" aria-controls="memoryAlbum">Xem album kỷ niệm <span aria-hidden="true">♡</span></button><button id="editCard" class="text-button" type="button">Viết lời chúc riêng <span aria-hidden="true">✎</span></button></div>
+          </div>
+          <form id="cardEditor" hidden>
+            <p class="editor-intro">Một tấm thiệp mang lời của mày.</p>
+            <h2 id="editorTitle" class="editor-title">Viết chút yêu thương</h2>
+            <label for="recipientInput">Gửi đến</label>
+            <input id="recipientInput" name="recipient" maxlength="60" required autocomplete="off">
+            <label for="messageInput">Lời chúc 20/10</label>
+            <textarea id="messageInput" name="message" rows="7" maxlength="1500" required></textarea>
+            <label for="senderInput">Người gửi</label>
+            <input id="senderInput" name="sender" maxlength="60" required autocomplete="off">
+            <p class="editor-hint">Lời chúc được lưu trên trình duyệt này.</p>
+            <div class="editor-actions"><button class="primary-button" type="submit">Lưu lời chúc</button><button class="text-button" id="cancelEdit" type="button">Hủy</button></div>
+          </form>
+          <p id="cardStatus" class="card-status" role="status" aria-live="polite"></p>
+        </div>
+      </dialog>
+    </div>
+    <section id="memoryAlbum" class="memory-album" aria-labelledby="albumTitle" hidden>
+      <header class="album-heading">
+        <p class="album-note">Một chút kỷ niệm, dành riêng cho mày</p>
+        <h2 id="albumTitle">Những khoảnh khắc thương yêu</h2>
+        <button id="toggleAlbum" class="text-button" type="button" aria-expanded="false" aria-controls="albumPhotos">Xòe album <span aria-hidden="true">♡</span></button>
+        <button id="editAlbum" class="text-button" type="button" aria-expanded="false" aria-controls="albumPhotos">Thay ảnh <span aria-hidden="true">✎</span></button>
+      </header>
+      <p id="albumEditHint" class="album-edit-hint" hidden>Chọn ảnh từ thiết bị của mày, tối đa 20 MB mỗi ảnh. Ảnh được lưu trên trình duyệt này, không tự gửi sang thiết bị khác.</p>
+      <p id="albumStatus" class="album-status" role="status" aria-live="polite" aria-atomic="true"></p>
+      <div id="albumPhotos" class="album-photos">
+        <figure class="portrait-card album-card">
+          <div class="portrait-photo"><img src="./assets/photo-1.jpg" alt="Phạm Ngọc Huyền đứng trước ngôi nhà vàng" width="768" height="1024" decoding="async" style="object-position: center 62%"></div>
+          <figcaption><span class="portrait-dedication">Một nụ cười rất thương.</span><span class="portrait-date">Đề nghị giữ nụ cười này dùng lâu dài.</span></figcaption>
+          <div class="photo-actions" hidden>
+            <button class="text-button change-photo" type="button" aria-label="Đổi ảnh thứ nhất">Đổi ảnh</button>
+            <button class="text-button reset-photo" type="button" aria-label="Khôi phục ảnh thứ nhất" disabled>Ảnh ban đầu</button>
+            <input class="photo-input" type="file" accept="image/*" aria-label="Chọn ảnh thứ nhất" hidden>
+          </div>
+        </figure>
+        <figure class="portrait-card album-card">
+          <div class="portrait-photo"><img src="./assets/photo-2.jpg" alt="Phạm Ngọc Huyền trong áo trắng" width="768" height="1024" decoding="async" loading="lazy" style="object-position: center 30%"></div>
+          <figcaption><span class="portrait-dedication">Bình yên từ điều nhỏ.</span><span class="portrait-date">Không cần gì lớn lao. Thế này đã đủ vui.</span></figcaption>
+          <div class="photo-actions" hidden>
+            <button class="text-button change-photo" type="button" aria-label="Đổi ảnh thứ hai">Đổi ảnh</button>
+            <button class="text-button reset-photo" type="button" aria-label="Khôi phục ảnh thứ hai" disabled>Ảnh ban đầu</button>
+            <input class="photo-input" type="file" accept="image/*" aria-label="Chọn ảnh thứ hai" hidden>
+          </div>
+        </figure>
+        <figure class="portrait-card album-card">
+          <div class="portrait-photo"><img src="./assets/photo-3.jpg" alt="Phạm Ngọc Huyền và một người bạn" width="768" height="1024" decoding="async" loading="lazy" style="object-position: center 34%"></div>
+          <figcaption><span class="portrait-dedication">Mong mày luôn rạng rỡ.</span><span class="portrait-date">Bản quyền nụ cười thuộc về mày.</span></figcaption>
+          <div class="photo-actions" hidden>
+            <button class="text-button change-photo" type="button" aria-label="Đổi ảnh thứ ba">Đổi ảnh</button>
+            <button class="text-button reset-photo" type="button" aria-label="Khôi phục ảnh thứ ba" disabled>Ảnh ban đầu</button>
+            <input class="photo-input" type="file" accept="image/*" aria-label="Chọn ảnh thứ ba" hidden>
+          </div>
+        </figure>
+        <figure class="portrait-card album-card">
+          <div class="portrait-photo"><img src="./assets/photo-4.jpg" alt="Phạm Ngọc Huyền ngồi ở quán" width="768" height="1024" decoding="async" loading="lazy" style="object-position: center 42%"></div>
+          <figcaption><span class="portrait-dedication">Đang bận một chút.</span><span class="portrait-date">Nhưng vẫn đáng được ngắm.</span></figcaption>
+          <div class="photo-actions" hidden>
+            <button class="text-button change-photo" type="button" aria-label="Đổi ảnh thứ tư">Đổi ảnh</button>
+            <button class="text-button reset-photo" type="button" aria-label="Khôi phục ảnh thứ tư" disabled>Ảnh ban đầu</button>
+            <input class="photo-input" type="file" accept="image/*" aria-label="Chọn ảnh thứ tư" hidden>
+          </div>
+        </figure>
+        <figure class="portrait-card album-card">
+          <div class="portrait-photo"><img src="./assets/photo-5.jpg" alt="Phạm Ngọc Huyền mỉm cười bên bàn" width="768" height="1024" decoding="async" loading="lazy" style="object-position: center 40%"></div>
+          <figcaption><span class="portrait-dedication">Nụ cười cho hôm nay.</span><span class="portrait-date">Xin phép được đứng gần mà xem.</span></figcaption>
+          <div class="photo-actions" hidden>
+            <button class="text-button change-photo" type="button" aria-label="Đổi ảnh thứ năm">Đổi ảnh</button>
+            <button class="text-button reset-photo" type="button" aria-label="Khôi phục ảnh thứ năm" disabled>Ảnh ban đầu</button>
+            <input class="photo-input" type="file" accept="image/*" aria-label="Chọn ảnh thứ năm" hidden>
+          </div>
+        </figure>
+        <figure class="portrait-card album-card">
+          <div class="portrait-photo"><img src="./assets/photo-6.jpg" alt="Một chú chuột hamster dễ thương" width="768" height="1024" decoding="async" loading="lazy" style="object-position: center 68%"></div>
+          <figcaption><span class="portrait-dedication">Một vị khách không hẹn.</span><span class="portrait-date">Vẫn làm cả album vui lên.</span></figcaption>
+          <div class="photo-actions" hidden>
+            <button class="text-button change-photo" type="button" aria-label="Đổi ảnh thứ sáu">Đổi ảnh</button>
+            <button class="text-button reset-photo" type="button" aria-label="Khôi phục ảnh thứ sáu" disabled>Ảnh ban đầu</button>
+            <input class="photo-input" type="file" accept="image/*" aria-label="Chọn ảnh thứ sáu" hidden>
+          </div>
+        </figure>
+        <figure class="portrait-card album-card">
+          <div class="portrait-photo"><img src="./assets/photo-7.jpg" alt="Phạm Ngọc Huyền trước quán cây xanh" width="768" height="1024" decoding="async" loading="lazy" style="object-position: center 72%"></div>
+          <figcaption><span class="portrait-dedication">Giữa ngày thật xanh.</span><span class="portrait-date">Đứng đây thôi cũng đã là một tấm ảnh đẹp.</span></figcaption>
+          <div class="photo-actions" hidden>
+            <button class="text-button change-photo" type="button" aria-label="Đổi ảnh thứ bảy">Đổi ảnh</button>
+            <button class="text-button reset-photo" type="button" aria-label="Khôi phục ảnh thứ bảy" disabled>Ảnh ban đầu</button>
+            <input class="photo-input" type="file" accept="image/*" aria-label="Chọn ảnh thứ bảy" hidden>
+          </div>
+        </figure>
+        <figure class="portrait-card album-card">
+          <div class="portrait-photo"><img src="./assets/photo-8.jpg" alt="Phạm Ngọc Huyền trong váy hoa" width="768" height="1024" decoding="async" loading="lazy" style="object-position: center 42%"></div>
+          <figcaption><span class="portrait-dedication">Đẹp theo cách của riêng mày.</span><span class="portrait-date">Hoa xung quanh chỉ là phụ thôi.</span></figcaption>
+          <div class="photo-actions" hidden>
+            <button class="text-button change-photo" type="button" aria-label="Đổi ảnh thứ tám">Đổi ảnh</button>
+            <button class="text-button reset-photo" type="button" aria-label="Khôi phục ảnh thứ tám" disabled>Ảnh ban đầu</button>
+            <input class="photo-input" type="file" accept="image/*" aria-label="Chọn ảnh thứ tám" hidden>
+          </div>
+        </figure>
+      </div>
+      <div class="closing">
+        <p class="album-footnote">Có những điều nhỏ, nhớ lại vẫn thấy vui.</p>
+        <div class="closing-letter">
+          <p>Đến đây là hết món quà nhỏ này.</p>
+          <p>Ban đầu tao cũng nghĩ phải làm gì đó cho hoành tráng. Nghĩ lại thì thôi. Một thứ giản dị, chuẩn bị bằng sự chân thành, đôi khi lại đúng hơn.</p>
+          <p>Tao không biết hôm nay mày vui đến đâu, cũng không biết những ngày tới sẽ mang đến điều gì. Chỉ mong mày đủ dũng khí để theo điều mày thích, đủ bình yên để nghỉ khi mệt, và đủ yêu thương để không quên chăm sóc chính mày.</p>
+          <p>Cảm ơn mày đã mở món quà này.</p>
+          <p class="closing-sign">Chúc Phạm Ngọc Huyền một ngày 20/10 thật vui nhé.<br>Giáp Văn Khang</p>
+          <p class="closing-ps">P/S: Nếu đọc đến đây mà vẫn chưa cười, tao xin phép được luyện thêm ở phiên bản sau.</p>
+        </div>
+      </div>
+    </section>
+    <noscript><p class="noscript-message">Bật JavaScript để ngắm hoa nở và mở thiệp 20/10 nhé.</p></noscript>
+  </main>
+</body>
+</html>
